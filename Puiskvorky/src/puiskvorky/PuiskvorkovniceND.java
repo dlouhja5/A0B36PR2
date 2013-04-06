@@ -7,6 +7,8 @@ package puiskvorky;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -15,6 +17,7 @@ import java.awt.Graphics;
 public class PuiskvorkovniceND extends Canvas{
     private int width, height, sizeWidth, sizeHeight, sizeOfWidth, sizeOfHeight;
     private boolean[] krizky, kolecka;
+    private int num=0;
 
     public PuiskvorkovniceND(int width, int height) {
         initiate(width, height, this.getWidth(), this.getHeight());
@@ -35,7 +38,39 @@ public class PuiskvorkovniceND extends Canvas{
             this.krizky[i]=false;
             this.kolecka[i]=false;
         }
-        
+        posluchac();
+    }
+    private void posluchac(){
+        this.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent me){
+                if(me.getX()<sizeWidth&&me.getY()<sizeHeight&&me.getX()>-1&&me.getY()>-1){
+//                    throw new Mic(me.getX()/sizeOfWidth, me.getY()/sizeOfHeight, KK.PRAZDNE);
+                    pridej(me.getX()/sizeOfWidth, me.getY()/sizeOfHeight);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
     }
     public void resizeIt(int sizeWidth, int sizeHeight){
         this.sizeHeight=sizeHeight;this.sizeWidth=sizeWidth;
@@ -63,6 +98,14 @@ public class PuiskvorkovniceND extends Canvas{
             }
         }
     }
+    private void pridej(int i, int j){
+        if(num%2==0){
+            pridej(i, j, KK.KRIZEK);
+        }else{
+            pridej(i, j, KK.KOLECKO);
+        }
+        num++;
+    }
     public void pridej(int i, int j, KK co){
         if(co==KK.KRIZEK){
             this.krizky[i*this.width+j]=true;
@@ -79,5 +122,21 @@ public class PuiskvorkovniceND extends Canvas{
             this.krizky[i*this.width+j]=false;
             repaint();
         }
+    }
+
+    public int getSizeOfWidth() {
+        return sizeOfWidth;
+    }
+
+    public int getSizeOfHeight() {
+        return sizeOfHeight;
+    }
+
+    public int getSizeWidth() {
+        return sizeWidth;
+    }
+
+    public int getSizeHeight() {
+        return sizeHeight;
     }
 }

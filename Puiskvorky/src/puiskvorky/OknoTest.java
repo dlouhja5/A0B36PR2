@@ -29,15 +29,15 @@ public class OknoTest extends JFrame{
         try {
             a.puis.pridej(5, 5, KK.KRIZEK);
             a.puis.pridej(5, 6, KK.KOLECKO);
-            a.wait(30000);
+            Thread.sleep(3000);
             a.puis.pridej(6, 6, KK.KRIZEK);
-            a.wait(30000);
+            Thread.sleep(3000);
             a.puis.pridej(7, 7, KK.KOLECKO);
-            a.wait(30000);
+            Thread.sleep(3000);
             a.puis.pridej(4, 6, KK.KRIZEK);
-            a.wait(30000);
+            Thread.sleep(3000);
             a.puis.pridej(3, 7, KK.KOLECKO);
-            a.wait(30000);
+            Thread.sleep(30000);
         } catch (InterruptedException ex) {
             Logger.getLogger(OknoTest.class.getName()).log(Level.SEVERE, null, ex);
         }
