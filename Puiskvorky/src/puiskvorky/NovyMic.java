@@ -10,8 +10,6 @@ import java.io.Serializable;
  *
  * @author Kuba D
  */
-public enum KK implements Serializable{
-    PRAZDNE,
-    KRIZEK,
-    KOLECKO
+public class NovyMic extends Throwable implements Serializable {
+    
 }

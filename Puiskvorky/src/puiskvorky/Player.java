@@ -4,14 +4,10 @@
  */
 package puiskvorky;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Kuba D
  */
-public enum KK implements Serializable{
-    PRAZDNE,
-    KRIZEK,
-    KOLECKO
+public class Player {
+    public String name;
 }

@@ -4,14 +4,12 @@
  */
 package puiskvorky;
 
-import java.io.Serializable;
+import java.awt.event.MouseListener;
 
 /**
  *
  * @author Kuba D
  */
-public enum KK implements Serializable{
-    PRAZDNE,
-    KRIZEK,
-    KOLECKO
+public class LocalPlayer extends Player implements MouseListener {
+    
 }
