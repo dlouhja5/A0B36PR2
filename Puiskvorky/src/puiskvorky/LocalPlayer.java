@@ -4,12 +4,14 @@
  */
 package puiskvorky;
 
-import java.awt.event.MouseListener;
-
 /**
  *
  * @author Kuba D
  */
-public class LocalPlayer extends Player implements MouseListener {
-    
+public class LocalPlayer extends Player {
+
+    public LocalPlayer(String name, KK kdo) {
+        super(name, kdo);
+    }
+
 }

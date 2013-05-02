@@ -77,6 +77,18 @@ public class Mic extends Throwable implements Serializable {
         return true;
     }
 
+    public boolean equalij(Mic m) {
+        if(m == null) {
+            return false;
+        }
+        if (this.i != m.i) {
+            return false;
+        }
+        if (this.j != m.j) {
+            return false;
+        }
+        return true;
+    }
     public boolean equalij(Object obj) {
         if (obj == null) {
             return false;

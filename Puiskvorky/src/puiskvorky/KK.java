@@ -13,5 +13,12 @@ import java.io.Serializable;
 public enum KK implements Serializable{
     PRAZDNE,
     KRIZEK,
-    KOLECKO
+    KOLECKO;
+    public KK reverse(){
+        switch(this){
+            case KRIZEK:    return KOLECKO;
+            case KOLECKO:   return KRIZEK;
+            default:        return PRAZDNE;
+        }
+    }
 }

@@ -83,8 +83,10 @@ public class Zdroj extends Pripojeni {
                         out.close();
                         systemIn.close();
                         client.close();
+                        server.close();
                         break;
                     } else {
+                        System.out.println(input);/*
                         Object response=null;
                         try {
                             response = in.readObject();
@@ -100,7 +102,7 @@ public class Zdroj extends Pripojeni {
                             if(response instanceof Mic){
                                 Mic m=(Mic)response;
                             }
-                        }
+                        }*/
                     }
                 }
                 try {

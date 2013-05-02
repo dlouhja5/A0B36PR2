@@ -9,27 +9,35 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Kuba D
  */
-public class PuiskvorkovniceND extends Canvas{
+public class PuiskvorkovniceND extends Canvas implements Observer{
     private int width, height, sizeWidth, sizeHeight, sizeOfWidth, sizeOfHeight;
     private boolean[] krizky, kolecka;
-    private int num=0;
+    private int num = 0;
+    private Mic mic = new Mic(-1,-1,KK.PRAZDNE);
+    private Observable observable;
 
     public PuiskvorkovniceND(int width, int height) {
         initiate(width, height, this.getWidth(), this.getHeight());
+        this.prihravac();
     }
 
     public PuiskvorkovniceND(int width, int height, int sizeWidth, int sizeHeight) {
         initiate(width, height, sizeWidth, sizeHeight);
+        this.prihravac();
     }
-    
+    public PuiskvorkovniceND(int width, int height, int sizeWidth, int sizeHeight, int test) {
+        initiate(width, height, sizeWidth, sizeHeight);
+    }
     private void initiate(int width, int height, int sizeWidth, int sizeHeight){
           //počet dílů na (šířku,      výšku),      šířka,          výška
-        this.setBackground(Color.yellow);
+        this.setBackground(Color.WHITE);
         this.height=height;this.width=width;this.sizeHeight=sizeHeight;this.sizeWidth=sizeWidth;
         this.sizeOfHeight=sizeHeight/height;this.sizeOfWidth=sizeWidth/width;
         this.setSize(sizeWidth, sizeHeight);
@@ -39,6 +47,7 @@ public class PuiskvorkovniceND extends Canvas{
             this.kolecka[i]=false;
         }
         posluchac();
+        this.repaint();
     }
     private void posluchac(){
         this.addMouseListener(new MouseListener() {
@@ -46,8 +55,7 @@ public class PuiskvorkovniceND extends Canvas{
             @Override
             public void mouseClicked(MouseEvent me){
                 if(me.getX()<sizeWidth&&me.getY()<sizeHeight&&me.getX()>-1&&me.getY()>-1){
-//                    throw new Mic(me.getX()/sizeOfWidth, me.getY()/sizeOfHeight, KK.PRAZDNE);
-                    pridej(me.getX()/sizeOfWidth, me.getY()/sizeOfHeight);
+                    prihraj(new Mic(me.getX()/sizeOfWidth, me.getY()/sizeOfHeight, KK.PRAZDNE));
                 }
             }
 
@@ -72,11 +80,26 @@ public class PuiskvorkovniceND extends Canvas{
             }
         });
     }
+    private void prihravac(){
+        this.observable = new Observable() {
+            
+        };
+    }
+    public void prihraj(Mic m){
+        if(this.observable!=null){
+            this.observable.notifyObservers(mic = m);
+        }else{
+            pridej(m.getI(), m.getJ());
+        }
+    }
+    public void localUcho(LocalPlayer lp){
+        this.observable.addObserver(lp);
+    }
     public void resizeIt(int sizeWidth, int sizeHeight){
         this.sizeHeight=sizeHeight;this.sizeWidth=sizeWidth;
         this.sizeOfHeight=sizeHeight/height;this.sizeOfWidth=sizeWidth/width;
         this.setSize(sizeWidth, sizeHeight);
-        update(getGraphics());
+        repaint();
     }
     @Override
     public void paint(Graphics g){
@@ -138,5 +161,36 @@ public class PuiskvorkovniceND extends Canvas{
 
     public int getSizeHeight() {
         return sizeHeight;
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        if(o1 instanceof Mic){
+            Mic m = (Mic)o1;
+            if(m.getCo()==KK.KRIZEK){
+                this.krizky[m.getI()*this.width+m.getJ()]=true;
+                this.kolecka[m.getI()*this.width+m.getJ()]=false;
+            }else{if(m.getCo()==KK.KOLECKO){
+                this.kolecka[m.getI()*this.width+m.getJ()]=true;
+                this.krizky[m.getI()*this.width+m.getJ()]=false;
+            }else{
+                this.krizky[m.getI()*this.width+m.getJ()]=false;
+                this.kolecka[m.getI()*this.width+m.getJ()]=false;
+            }}
+//            switch(m.getCo()){
+//                case KK.KRIZEK: this.krizky[m.getI()*this.width+m.getJ()]=true;
+//                                this.kolecka[m.getI()*this.width+m.getJ()]=false;
+//                                break;
+//                case KK.KOLECKO:    this.kolecka[m.getI()*this.width+m.getJ()]=true;
+//                                    this.krizky[m.getI()*this.width+m.getJ()]=false;
+//                                    break;
+//                case KK.PRAZDNE:    this.krizky[m.getI()*this.width+m.getJ()]=false;
+//                                    this.kolecka[m.getI()*this.width+m.getJ()]=false;
+//                                    break;
+//            }
+            repaint();
+        }else{
+            System.out.println("Nepodporuje.");throw new UnsupportedOperationException("Not supported this.");
+        }
     }
 }
